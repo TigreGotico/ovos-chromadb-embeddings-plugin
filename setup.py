@@ -49,7 +49,7 @@ setup(
     name='ovos-chromadb-embeddings-plugin',
     version=get_version(),
     description='A chromadb embeddings plugin for OVOS',
-    url='https://github.com/JarbasHiveMind/ovos-chromadb-embeddings-plugin',
+    url='https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin',
     author='jarbasai',
     author_email='jarbasai@mailfence.com',
     license='MIT',
