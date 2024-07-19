@@ -45,6 +45,9 @@ def required(requirements_file):
                 if pkg.strip() and not pkg.startswith("#")]
 
 
+PLUGIN_ENTRY_POINT = 'ovos-chromadb-embeddings-plugin=ovos_chromadb_embeddings:ChromaEmbeddingsDB'
+
+
 setup(
     name='ovos-chromadb-embeddings-plugin',
     version=get_version(),
@@ -56,6 +59,7 @@ setup(
     packages=['ovos_chromadb_embeddings'],
     zip_safe=True,
     keywords='OVOS openvoiceos plugin chromadb recognition',
+    entry_points={'opm.embeddings': PLUGIN_ENTRY_POINT},
     install_requires=required("requirements.txt"),
     long_description=long_desc,
     long_description_content_type='text/markdown'
