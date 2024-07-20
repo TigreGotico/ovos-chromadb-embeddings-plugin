@@ -2,7 +2,12 @@
 
 ## Overview
 
-The `ChromaEmbeddingsDB` plugin integrates with the [ChromaDB](https://chromadb.com) database to provide a robust solution for managing and querying embeddings. This plugin extends the abstract `EmbeddingsDB` class, allowing you to store, retrieve, and query embeddings efficiently using ChromaDB’s capabilities.
+The `ChromaEmbeddingsDB` plugin integrates with the [ChromaDB](https://www.trychroma.com/) database to provide a robust solution for managing and querying embeddings. This plugin extends the abstract `EmbeddingsDB` class, allowing you to store, retrieve, and query embeddings efficiently using ChromaDB’s capabilities.
+
+This plugin is meant to be used by other specialized plugins such as:
+- https://github.com/TigreGotico/ovos-face-embeddings-plugin
+- https://github.com/TigreGotico/ovos-voice-embeddings-plugin
+- https://github.com/TigreGotico/ovos-gguf-embeddings-plugin
 
 ## Features
 
@@ -41,10 +46,7 @@ print(results)
 db.delete_embedding("user1")
 ```
 
-## Notes
-
-- The `ChromaEmbeddingsDB` class uses cosine distance for querying by default. You can adjust this in the metadata when creating the collection.
-- Ensure that the path provided to the `ChromaEmbeddingsDB` constructor is accessible and writable.
+> Ensure that the path provided to the `ChromaEmbeddingsDB` constructor is accessible and writable.
 
 
 ## Acknowledgements
