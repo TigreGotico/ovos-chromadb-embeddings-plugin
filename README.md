@@ -51,5 +51,5 @@ db.delete_embedding("user1")
 
 ## Acknowledgements
 
-- [ChromaDB](https://chromadb.com) for providing the database backend.
+- [ChromaDB](https://www.trychroma.com/) for providing the database backend.
 - [NumPy](https://numpy.org) for numerical operations.
