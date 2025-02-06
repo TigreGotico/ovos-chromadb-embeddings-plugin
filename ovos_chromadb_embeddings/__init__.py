@@ -2,6 +2,7 @@ from typing import List, Optional, Dict
 
 import chromadb
 import numpy as np
+from chromadb.config import Settings
 
 from ovos_plugin_manager.templates.embeddings import EmbeddingsDB, EmbeddingsTuple
 
@@ -16,7 +17,7 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
             path (str): The path to the ChromaDB storage.
         """
         super().__init__()
-        self.client = chromadb.PersistentClient(path=path)
+        self.client = chromadb.PersistentClient(path=path, settings=Settings(anonymized_telemetry=False))
         self.collection = self.client.get_or_create_collection(
             "embeddings", metadata={"hnsw:space": "cosine"}
         )
@@ -30,7 +31,7 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
             metadata (Optional[Dict[str, any]]): Optional metadata associated with the embedding.
         """
         self.collection.upsert(
-            embeddings=[embedding.tolist()],
+            embeddings=embedding,
             ids=[key],
             metadatas=[metadata or {}]
         )
