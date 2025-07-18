@@ -11,6 +11,11 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
     """An implementation of EmbeddingsDB using ChromaDB for managing embeddings."""
 
     def __init__(self, config: Dict[str, Any] = None):
+        """
+        Initialize the ChromaEmbeddingsDB instance with the specified configuration.
+        
+        Creates a ChromaDB client using either HTTP or persistent storage based on the provided configuration. Sets the default collection name and ensures the default collection exists upon initialization.
+        """
         super().__init__(config)
         # Determine the default collection name from config, or use "embeddings"
         self.default_collection_name = self.config.get("default_collection_name", "embeddings")
@@ -32,9 +37,13 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
 
     def _get_collection_instance(self, collection_name: Optional[str]) -> chromadb.api.models.Collection.Collection:
         """
-        Helper method to get the ChromaDB collection instance.
-        If collection_name is None, returns the default collection.
-        Raises ValueError if the collection does not exist.
+        Retrieve a ChromaDB collection instance by name or return the default collection.
+        
+        Raises:
+            ValueError: If the specified collection does not exist or cannot be accessed.
+        
+        Returns:
+            The ChromaDB collection instance corresponding to the given name or the default collection if no name is provided.
         """
         name = collection_name or self.default_collection_name
         try:
@@ -45,10 +54,9 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
 
     def _get_or_create_collection(self, name: str, metadata: Optional[Dict[str, Any]] = None):
         """
-        Internal helper to get or create a collection.
-        ChromaDB's get_or_create_collection handles the logic.
-        We enforce "hnsw:space": "cosine" as a common and good default for embeddings,
-        but ChromaDB will ignore this if the collection already exists with a different space.
+        Get an existing ChromaDB collection by name or create it with specified metadata if it does not exist.
+        
+        If no `"hnsw:space"` is specified in the metadata, it defaults to `"cosine"`. Returns the collection instance.
         """
         collection_metadata = metadata or {}
         if "hnsw:space" not in collection_metadata:
@@ -57,32 +65,40 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
 
     def create_collection(self, name: str, metadata: Optional[Dict[str, Any]] = None) -> Any:
         """
-        Create a new collection (vector store).
-        Args:
-            name (str): The name of the collection (vector store ID).
-            metadata (Optional[Dict[str, Any]]): Optional metadata for the collection.
+        Create a new embeddings collection with the specified name and optional metadata.
+        
+        If a collection with the given name already exists, returns the existing collection handle.
+        
+        Parameters:
+            name (str): Name of the collection to create.
+            metadata (Optional[Dict[str, Any]]): Optional metadata to associate with the collection.
+        
         Returns:
-            Any: A handle or object representing the created collection.
+            A handle to the created or existing collection.
         """
         return self._get_or_create_collection(name, metadata)
 
     def get_collection(self, name: str) -> Any:
         """
-        Retrieve an existing collection by name.
-        Args:
-            name (str): The name of the collection.
+        Retrieve a ChromaDB collection by its name.
+        
+        Parameters:
+            name (str): Name of the collection to retrieve.
+        
         Returns:
-            Any: A handle or object representing the retrieved collection.
+            The collection object corresponding to the specified name.
+        
         Raises:
-            ValueError: If the collection is not found.
+            ValueError: If the collection does not exist.
         """
         return self._get_collection_instance(name)
 
     def delete_collection(self, name: str) -> None:
         """
-        Delete a collection by name.
-        Args:
-            name (str): The name of the collection to delete.
+        Deletes the specified collection from the database.
+        
+        Parameters:
+            name (str): Name of the collection to delete.
         """
         try:
             self.client.delete_collection(name=name)
@@ -92,9 +108,10 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
 
     def list_collections(self) -> List[Any]:
         """
-        List all available collections.
+        Return a list of all collections available in the database.
+        
         Returns:
-            List[Any]: A list of handles or objects representing the collections.
+            List[Any]: Handles or objects representing each collection.
         """
         return self.client.list_collections()
 
@@ -102,15 +119,16 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
                        metadata: Optional[Dict[str, Any]] = None,
                        collection_name: Optional[str] = None) -> EmbeddingsArray:
         """
-        Store 'embedding' under 'key' with associated metadata in the specified or default collection.
-        Args:
-            key (str): The unique key for the embedding.
-            embedding (np.ndarray): The embedding vector to store.
-            metadata (Optional[Dict[str, Any]]): Optional metadata associated with the embedding.
-            collection_name (Optional[str]): The name of the collection to add the embedding to.
-                                             If None, a default collection should be used.
+        Adds or updates an embedding vector under the specified key in a ChromaDB collection, optionally associating metadata.
+        
+        Parameters:
+           key (str): Unique identifier for the embedding.
+           embedding (EmbeddingsArray): The embedding vector to store.
+           metadata (Optional[Dict[str, Any]]): Additional metadata to associate with the embedding.
+           collection_name (Optional[str]): Name of the collection to use; defaults to the configured default collection if not provided.
+        
         Returns:
-            np.ndarray: The stored embedding.
+           EmbeddingsArray: The embedding that was stored.
         """
         collection = self._get_collection_instance(collection_name)
         embedding_list = embedding.tolist() if isinstance(embedding, np.ndarray) else embedding
@@ -125,12 +143,13 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
                              metadata: Optional[List[Dict[str, Any]]] = None,
                              collection_name: Optional[str] = None) -> None:
         """
-        Add or update multiple embeddings in a batch to a specific collection.
-        Args:
-            keys (List[str]): List of unique keys for the embeddings.
-            embeddings (List[EmbeddingsArray]): List of embedding vectors to store.
-            metadata (Optional[List[Dict[str, Any]]]): Optional list of metadata dictionaries.
-            collection_name (Optional[str]): The name of the collection to add the embeddings to.
+        Add or update multiple embeddings in a batch within the specified or default collection.
+         
+        Parameters:
+            keys (List[str]): Unique identifiers for each embedding.
+            embeddings (List[EmbeddingsArray]): Embedding vectors to store.
+            metadata (Optional[List[Dict[str, Any]]]): Optional metadata for each embedding.
+            collection_name (Optional[str]): Name of the collection to use; defaults to the configured default collection.
         """
         collection = self._get_collection_instance(collection_name)
         # Ensure embeddings are lists for ChromaDB
@@ -145,17 +164,16 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
                        return_metadata: bool = False) -> Union[Optional[EmbeddingsArray],
     Tuple[Optional[EmbeddingsArray], Optional[Dict[str, Any]]]]:
         """
-        Retrieve embeddings stored under 'key' from the specified or default collection.
-
-        Args:
-            key (str): The unique key for the embedding.
-            collection_name (Optional[str]): The name of the collection to retrieve from.
-            return_metadata (bool, optional): Whether to include metadata in the results. Defaults to False.
-
+        Retrieve the embedding associated with the given key from the specified or default collection.
+        
+        Parameters:
+           key (str): The unique identifier for the embedding.
+           collection_name (Optional[str]): The collection to search in. If not provided, uses the default collection.
+           return_metadata (bool): If True, also returns the embedding's metadata.
+        
         Returns:
-            Union[Optional[np.ndarray], Tuple[Optional[np.ndarray], Optional[Dict[str, Any]]]] :
-            If `return_metadata` is False, returns the retrieved embedding (np.ndarray) or None if not found.
-            If `return_metadata` is True, returns a tuple (embedding, metadata_dict) or (None, None) if not found.
+           If `return_metadata` is False, returns the embedding as a numpy array, or None if not found.
+           If `return_metadata` is True, returns a tuple (embedding, metadata) or (None, None) if not found.
         """
         collection = self._get_collection_instance(collection_name)
 
@@ -178,17 +196,15 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
     def get_embeddings_batch(self, keys: List[str], collection_name: Optional[str] = None,
                              return_metadata: bool = False) -> List[RetrievedEmbeddingResult]:
         """
-        Retrieve multiple embeddings and their metadata from a specific collection.
-
-        Args:
-            keys (List[str]): List of keys for the embeddings to retrieve.
-            collection_name (Optional[str]): The name of the collection to retrieve from.
-            return_metadata (bool, optional): Whether to include metadata in the results. Defaults to False.
-
+        Retrieve multiple embeddings by keys from a specified collection, optionally including metadata.
+        
+        Parameters:
+             keys (List[str]): The list of keys identifying the embeddings to retrieve.
+             collection_name (Optional[str]): The name of the collection to query. If None, uses the default collection.
+             return_metadata (bool): If True, includes metadata for each embedding in the results.
+        
         Returns:
-            List[RetrievedEmbeddingResult]: A list of tuples, where each tuple is
-            (key, embedding) if `return_metadata` is False, or (key, embedding, metadata)
-            if `return_metadata` is True.
+         List[RetrievedEmbeddingResult]: A list of tuples containing (key, embedding) or (key, embedding, metadata) for each found embedding.
         """
         collection = self._get_collection_instance(collection_name)
 
@@ -213,20 +229,22 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
 
     def delete_embeddings(self, key: str, collection_name: Optional[str] = None) -> None:
         """
-        Delete embeddings stored under 'key' from the specified or default collection.
-        Args:
-            key (str): The unique key for the embedding.
-            collection_name (Optional[str]): The name of the collection to delete from.
+        Delete the embedding associated with the given key from the specified or default collection.
+        
+        Parameters:
+            key (str): The unique identifier of the embedding to delete.
+            collection_name (Optional[str]): The name of the collection to delete from. If not provided, the default collection is used.
         """
         collection = self._get_collection_instance(collection_name)
         collection.delete(ids=[key])
 
     def delete_embeddings_batch(self, keys: List[str], collection_name: Optional[str] = None) -> None:
         """
-        Delete multiple embeddings in a batch from a specific collection.
-        Args:
-            keys (List[str]): List of keys for the embeddings to delete.
-            collection_name (Optional[str]): The name of the collection to delete from.
+        Delete multiple embeddings identified by their keys from the specified or default collection.
+        
+        Parameters:
+            keys (List[str]): List of embedding keys to delete.
+            collection_name (Optional[str]): Name of the collection to delete from. If not provided, uses the default collection.
         """
         collection = self._get_collection_instance(collection_name)
         collection.delete(ids=keys)
@@ -234,15 +252,16 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
     def query(self, embeddings: EmbeddingsArray, top_k: int = 5,
               return_metadata: bool = False, collection_name: Optional[str] = None) -> List[EmbeddingsTuple]:
         """
-        Query the database for the closest embeddings to the given query embedding
-        in the specified or default collection.
-        Args:
-            embeddings (np.ndarray): The embedding vector to query.
-            top_k (int, optional): The number of top results to return. Defaults to 5.
-            return_metadata (bool, optional): Whether to include metadata in the results. Defaults to False.
-            collection_name (Optional[str]): The name of the collection to query.
+        Finds the closest embeddings to a given query embedding in the specified or default collection.
+        
+        Parameters:
+              embeddings (np.ndarray): The embedding vector to use as the query.
+              top_k (int, optional): Maximum number of nearest results to return. Defaults to 5.
+              return_metadata (bool, optional): If True, includes metadata for each result. Defaults to False.
+              collection_name (Optional[str]): Name of the collection to query; uses the default if not specified.
+        
         Returns:
-            List[EmbeddingsTuple]: A list of tuples containing the keys, distances, and optionally metadata.
+          List[EmbeddingsTuple]: A list of tuples containing (id, distance) or (id, distance, metadata) for each nearest embedding found.
         """
         collection = self._get_collection_instance(collection_name)
         embedding_list = embeddings.tolist() if isinstance(embeddings, np.ndarray) else embeddings
@@ -266,11 +285,13 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
 
     def count_embeddings_in_collection(self, collection_name: Optional[str] = None) -> int:
         """
-        Count the number of embeddings in a specific collection.
-        Args:
-            collection_name (Optional[str]): The name of the collection.
+        Return the number of embeddings stored in the specified collection.
+        
+        Parameters:
+        	collection_name (Optional[str]): Name of the collection to count embeddings in. If None, uses the default collection.
+        
         Returns:
-            int: The number of embeddings in the collection.
+        	int: The total number of embeddings in the collection.
         """
         collection = self._get_collection_instance(collection_name)
         return collection.count()
