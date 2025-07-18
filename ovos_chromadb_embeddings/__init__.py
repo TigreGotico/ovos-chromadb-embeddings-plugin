@@ -119,17 +119,17 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
                        metadata: Optional[Dict[str, Any]] = None,
                        collection_name: Optional[str] = None) -> EmbeddingsArray:
         """
-                       Adds or updates an embedding vector under the specified key in a ChromaDB collection, optionally associating metadata.
-                       
-                       Parameters:
-                           key (str): Unique identifier for the embedding.
-                           embedding (EmbeddingsArray): The embedding vector to store.
-                           metadata (Optional[Dict[str, Any]]): Additional metadata to associate with the embedding.
-                           collection_name (Optional[str]): Name of the collection to use; defaults to the configured default collection if not provided.
-                       
-                       Returns:
-                           EmbeddingsArray: The embedding that was stored.
-                       """
+        Adds or updates an embedding vector under the specified key in a ChromaDB collection, optionally associating metadata.
+        
+        Parameters:
+           key (str): Unique identifier for the embedding.
+           embedding (EmbeddingsArray): The embedding vector to store.
+           metadata (Optional[Dict[str, Any]]): Additional metadata to associate with the embedding.
+           collection_name (Optional[str]): Name of the collection to use; defaults to the configured default collection if not provided.
+        
+        Returns:
+           EmbeddingsArray: The embedding that was stored.
+        """
         collection = self._get_collection_instance(collection_name)
         embedding_list = embedding.tolist() if isinstance(embedding, np.ndarray) else embedding
         collection.upsert(
@@ -143,14 +143,14 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
                              metadata: Optional[List[Dict[str, Any]]] = None,
                              collection_name: Optional[str] = None) -> None:
         """
-                             Add or update multiple embeddings in a batch within the specified or default collection.
-                             
-                             Parameters:
-                                 keys (List[str]): Unique identifiers for each embedding.
-                                 embeddings (List[EmbeddingsArray]): Embedding vectors to store.
-                                 metadata (Optional[List[Dict[str, Any]]]): Optional metadata for each embedding.
-                                 collection_name (Optional[str]): Name of the collection to use; defaults to the configured default collection.
-                             """
+        Add or update multiple embeddings in a batch within the specified or default collection.
+         
+        Parameters:
+            keys (List[str]): Unique identifiers for each embedding.
+            embeddings (List[EmbeddingsArray]): Embedding vectors to store.
+            metadata (Optional[List[Dict[str, Any]]]): Optional metadata for each embedding.
+            collection_name (Optional[str]): Name of the collection to use; defaults to the configured default collection.
+        """
         collection = self._get_collection_instance(collection_name)
         # Ensure embeddings are lists for ChromaDB
         embeddings_list = [e.tolist() if isinstance(e, np.ndarray) else e for e in embeddings]
@@ -164,17 +164,17 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
                        return_metadata: bool = False) -> Union[Optional[EmbeddingsArray],
     Tuple[Optional[EmbeddingsArray], Optional[Dict[str, Any]]]]:
         """
-                       Retrieve the embedding associated with the given key from the specified or default collection.
-                       
-                       Parameters:
-                           key (str): The unique identifier for the embedding.
-                           collection_name (Optional[str]): The collection to search in. If not provided, uses the default collection.
-                           return_metadata (bool): If True, also returns the embedding's metadata.
-                       
-                       Returns:
-                           If `return_metadata` is False, returns the embedding as a numpy array, or None if not found.
-                           If `return_metadata` is True, returns a tuple (embedding, metadata) or (None, None) if not found.
-                       """
+        Retrieve the embedding associated with the given key from the specified or default collection.
+        
+        Parameters:
+           key (str): The unique identifier for the embedding.
+           collection_name (Optional[str]): The collection to search in. If not provided, uses the default collection.
+           return_metadata (bool): If True, also returns the embedding's metadata.
+        
+        Returns:
+           If `return_metadata` is False, returns the embedding as a numpy array, or None if not found.
+           If `return_metadata` is True, returns a tuple (embedding, metadata) or (None, None) if not found.
+        """
         collection = self._get_collection_instance(collection_name)
 
         # Include metadata only if requested
@@ -196,16 +196,16 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
     def get_embeddings_batch(self, keys: List[str], collection_name: Optional[str] = None,
                              return_metadata: bool = False) -> List[RetrievedEmbeddingResult]:
         """
-                             Retrieve multiple embeddings by keys from a specified collection, optionally including metadata.
-                             
-                             Parameters:
-                                 keys (List[str]): The list of keys identifying the embeddings to retrieve.
-                                 collection_name (Optional[str]): The name of the collection to query. If None, uses the default collection.
-                                 return_metadata (bool): If True, includes metadata for each embedding in the results.
-                             
-                             Returns:
-                                 List[RetrievedEmbeddingResult]: A list of tuples containing (key, embedding) or (key, embedding, metadata) for each found embedding.
-                             """
+        Retrieve multiple embeddings by keys from a specified collection, optionally including metadata.
+        
+        Parameters:
+             keys (List[str]): The list of keys identifying the embeddings to retrieve.
+             collection_name (Optional[str]): The name of the collection to query. If None, uses the default collection.
+             return_metadata (bool): If True, includes metadata for each embedding in the results.
+        
+        Returns:
+         List[RetrievedEmbeddingResult]: A list of tuples containing (key, embedding) or (key, embedding, metadata) for each found embedding.
+        """
         collection = self._get_collection_instance(collection_name)
 
         # Include metadata only if requested
@@ -252,17 +252,17 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
     def query(self, embeddings: EmbeddingsArray, top_k: int = 5,
               return_metadata: bool = False, collection_name: Optional[str] = None) -> List[EmbeddingsTuple]:
         """
-              Finds the closest embeddings to a given query embedding in the specified or default collection.
-              
-              Parameters:
-                  embeddings (np.ndarray): The embedding vector to use as the query.
-                  top_k (int, optional): Maximum number of nearest results to return. Defaults to 5.
-                  return_metadata (bool, optional): If True, includes metadata for each result. Defaults to False.
-                  collection_name (Optional[str]): Name of the collection to query; uses the default if not specified.
-              
-              Returns:
-                  List[EmbeddingsTuple]: A list of tuples containing (id, distance) or (id, distance, metadata) for each nearest embedding found.
-              """
+        Finds the closest embeddings to a given query embedding in the specified or default collection.
+        
+        Parameters:
+              embeddings (np.ndarray): The embedding vector to use as the query.
+              top_k (int, optional): Maximum number of nearest results to return. Defaults to 5.
+              return_metadata (bool, optional): If True, includes metadata for each result. Defaults to False.
+              collection_name (Optional[str]): Name of the collection to query; uses the default if not specified.
+        
+        Returns:
+          List[EmbeddingsTuple]: A list of tuples containing (id, distance) or (id, distance, metadata) for each nearest embedding found.
+        """
         collection = self._get_collection_instance(collection_name)
         embedding_list = embeddings.tolist() if isinstance(embeddings, np.ndarray) else embeddings
 
