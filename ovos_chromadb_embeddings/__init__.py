@@ -1,5 +1,6 @@
 from typing import List, Optional, Dict, Any, Tuple, Union
 
+import numpy as np
 import chromadb
 from chromadb.config import Settings
 
@@ -50,7 +51,7 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
             return self.client.get_collection(name=name)
         except Exception as e:
             # ChromaDB raises an exception if collection not found
-            raise ValueError(f"Collection '{name}' not found or could not be accessed: {e}")
+            raise ValueError(f"Collection '{name}' not found or could not be accessed: {e}") from e
 
     def _get_or_create_collection(self, name: str, metadata: Optional[Dict[str, Any]] = None):
         """
@@ -100,11 +101,7 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
         Parameters:
             name (str): Name of the collection to delete.
         """
-        try:
-            self.client.delete_collection(name=name)
-        except Exception as e:
-            print(f"Error deleting collection '{name}': {e}")
-            # Optionally raise a more specific error or handle silently
+        self.client.delete_collection(name=name)
 
     def list_collections(self) -> List[Any]:
         """
@@ -185,8 +182,9 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
         result = collection.get(ids=[key], include=include_fields)
 
         if result and result['embeddings'] is not None:
-            embedding_list = result['embeddings']
-            embedding_array = np.array(embedding_list)
+             # ChromaDB returns list of embeddings even for single ID
+            embedding_list = result['embeddings'][0] if result['embeddings'] else None
+            embedding_array = np.array(embedding_list) if embedding_list is not None else None
             if return_metadata:
                 metadata = result['metadatas'][0] if result['metadatas'] else {}
                 return embedding_array, metadata
