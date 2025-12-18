@@ -1,24 +1,12 @@
 # Changelog
 
-## [0.2.0a1](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/tree/0.2.0a1) (2025-07-22)
+## [0.2.0a2](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/tree/0.2.0a2) (2025-12-18)
 
-[Full Changelog](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/compare/0.1.0...0.2.0a1)
+[Full Changelog](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/compare/0.2.0...0.2.0a2)
 
 **Merged pull requests:**
 
-- feat: remote client + collections support [\#3](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/pull/3) ([JarbasAl](https://github.com/JarbasAl))
-
-## [0.1.0](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/tree/0.1.0) (2025-02-06)
-
-[Full Changelog](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/compare/0.0.0...0.1.0)
-
-## [0.0.0](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/tree/0.0.0) (2024-10-25)
-
-[Full Changelog](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/compare/c3be91e5fc4d06bbcd5c83090f0b870b809d4bb4...0.0.0)
-
-**Implemented enhancements:**
-
-- feat/metadata\_support [\#1](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/pull/1) ([JarbasAl](https://github.com/JarbasAl))
+- chore: Configure Renovate [\#6](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/pull/6) ([renovate[bot]](https://github.com/apps/renovate))
 
 
 
