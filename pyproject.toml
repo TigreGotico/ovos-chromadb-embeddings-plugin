@@ -21,8 +21,8 @@ dependencies = [
 test = ["pytest", "numpy", "chromadb"]
 
 [project.urls]
-Homepage = "https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin"
-Repository = "https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin"
+Homepage = "https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin"
+Repository = "https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin"
 
 [project.entry-points."opm.embeddings"]
 ovos-chromadb-embeddings-plugin = "ovos_chromadb_embeddings:ChromaEmbeddingsDB"
