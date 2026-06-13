@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.0a3](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/tree/0.2.0a3) (2026-06-13)
+
+[Full Changelog](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/compare/0.2.0a2...0.2.0a3)
+
+**Merged pull requests:**
+
+- test: add ChromaDB EmbeddingsDB test suite + modernize CI [\#12](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/pull/12) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.2.0a2](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/tree/0.2.0a2) (2025-12-18)
 
 [Full Changelog](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/compare/0.2.0...0.2.0a2)
