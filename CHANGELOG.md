@@ -1,12 +1,20 @@
 # Changelog
 
+## [0.3.0a1](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/tree/0.3.0a1) (2026-06-13)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/compare/0.2.0a4...0.3.0a1)
+
+**Merged pull requests:**
+
+- feat: productionize ChromaDB embeddings plugin \(README, docs, examples, e2e\) [\#16](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/pull/16) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.2.0a4](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/tree/0.2.0a4) (2026-06-13)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/compare/0.2.0a3...0.2.0a4)
 
 **Merged pull requests:**
 
-- docs: OVOS attribution \(NGI0/NLnet + Visio\) + OpenVoiceOS URLs [\#14](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/pull/14) ([JarbasAl](https://github.com/JarbasAl))
+- feat: productionize ChromaDB embeddings plugin \(README, docs, examples, e2e\) [\#14](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/pull/14) ([JarbasAl](https://github.com/JarbasAl))
 
 ## [0.2.0a3](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/tree/0.2.0a3) (2026-06-13)
 
