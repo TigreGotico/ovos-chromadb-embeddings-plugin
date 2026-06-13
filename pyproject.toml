@@ -17,6 +17,9 @@ dependencies = [
     "chromadb",
 ]
 
+[project.optional-dependencies]
+test = ["pytest", "numpy", "chromadb"]
+
 [project.urls]
 Homepage = "https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin"
 Repository = "https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin"
