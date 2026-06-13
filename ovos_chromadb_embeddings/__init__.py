@@ -132,7 +132,7 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
         collection.upsert(
             embeddings=[embedding_list],
             ids=[key],
-            metadatas=[metadata or {}]
+            metadatas=[metadata] if metadata else None
         )
         return embedding
 
@@ -154,7 +154,7 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
         collection.upsert(
             embeddings=embeddings_list,
             ids=keys,
-            metadatas=metadata or ([{}] * len(keys))  # Provide empty dicts if metadata is None
+            metadatas=metadata if metadata else None  # None means no metadata stored
         )
 
     def get_embeddings(self, key: str, collection_name: Optional[str] = None,
@@ -183,8 +183,10 @@ class ChromaEmbeddingsDB(EmbeddingsDB):
 
         if result and result['embeddings'] is not None:
              # ChromaDB returns list of embeddings even for single ID
-            embedding_list = result['embeddings'][0] if result['embeddings'] else None
+            embedding_list = result['embeddings'][0] if len(result['embeddings']) > 0 else None
             embedding_array = np.array(embedding_list) if embedding_list is not None else None
+            if embedding_array is None:
+                return (None, None) if return_metadata else None
             if return_metadata:
                 metadata = result['metadatas'][0] if result['metadatas'] else {}
                 return embedding_array, metadata
