@@ -1,20 +1,28 @@
 # Changelog
 
-## [0.2.0a3](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/tree/0.2.0a3) (2026-06-13)
+## [0.2.0a4](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/tree/0.2.0a4) (2026-06-13)
 
-[Full Changelog](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/compare/0.2.0a2...0.2.0a3)
-
-**Merged pull requests:**
-
-- test: add ChromaDB EmbeddingsDB test suite + modernize CI [\#12](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/pull/12) ([JarbasAl](https://github.com/JarbasAl))
-
-## [0.2.0a2](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/tree/0.2.0a2) (2025-12-18)
-
-[Full Changelog](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/compare/0.2.0...0.2.0a2)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/compare/0.2.0a3...0.2.0a4)
 
 **Merged pull requests:**
 
-- chore: Configure Renovate [\#6](https://github.com/TigreGotico/ovos-chromadb-embeddings-plugin/pull/6) ([renovate[bot]](https://github.com/apps/renovate))
+- docs: OVOS attribution \(NGI0/NLnet + Visio\) + OpenVoiceOS URLs [\#14](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/pull/14) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.2.0a3](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/tree/0.2.0a3) (2026-06-13)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/compare/0.2.0a2...0.2.0a3)
+
+**Merged pull requests:**
+
+- test: add ChromaDB EmbeddingsDB test suite + modernize CI [\#12](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/pull/12) ([JarbasAl](https://github.com/JarbasAl))
+
+## [0.2.0a2](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/tree/0.2.0a2) (2025-12-18)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/compare/0.2.0...0.2.0a2)
+
+**Merged pull requests:**
+
+- chore: Configure Renovate [\#6](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/pull/6) ([renovate[bot]](https://github.com/apps/renovate))
 
 
 
