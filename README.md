@@ -20,9 +20,28 @@ This plugin registers as:
 opm.embeddings → ovos-chromadb-embeddings-plugin → ChromaEmbeddingsDB
 ```
 
-OVOS subsystems (e.g. memory, RAG pipelines, face/voice recognition) call
-`OVOSPluginFactory.get_plugin("opm.embeddings")` to obtain a configured store without
-coupling to a specific backend.
+OVOS subsystems call `OVOSPluginFactory.get_plugin("opm.embeddings")` to obtain a
+configured store without coupling to a specific backend, so any `EmbeddingsDB` plugin
+(ChromaDB here, or e.g. [qdrant](https://github.com/OpenVoiceOS/ovos-qdrant-embeddings-plugin))
+is a drop-in swap.
+
+## Where this fits in OVOS
+
+This plugin is the **vector store** half of the stack — it stores and searches vectors but
+does not produce them. Pair it with an embedding producer such as
+[ovos-gguf-embeddings-plugin](https://github.com/OpenVoiceOS/ovos-gguf-embeddings-plugin)
+(text → vectors), or the [face](https://github.com/OpenVoiceOS/ovos-face-embeddings-plugin)
+/ [voice](https://github.com/OpenVoiceOS/ovos-voice-embeddings-plugin) embedders.
+
+Concrete consumers that can be backed by this store:
+
+| Consumer | Uses the store for |
+|---|---|
+| [ovos-persona-server](https://github.com/OpenVoiceOS/ovos-persona-server) | RAG: the OpenAI-compatible Files / Vector-Stores / `/search` endpoints |
+| [ovos-memory-plugins](https://github.com/OpenVoiceOS/ovos-memory-plugins) | long-term semantic memory for a persona |
+| face / voice recognition | nearest-neighbour identity lookup over enrolment vectors |
+
+It is local-first: in persistent mode it runs fully offline on a CPU with no server.
 
 ## Quickstart
 
@@ -45,9 +64,10 @@ with tempfile.TemporaryDirectory() as tmp:
     print(results[0][0])  # "apple"
 ```
 
-Pair with an embedding producer such as
-[ovos-gguf-embeddings-plugin](https://github.com/OpenVoiceOS/ovos-gguf-embeddings-plugin)
-(`ovos-gguf-plugin`) to convert text → vectors before storing them here.
+`query` returns `(id, distance)` tuples ordered nearest-first. The score is a **distance**,
+not a similarity — **lower is closer** for the default `cosine` metric (and for `l2`). Change
+the metric with `hnsw:space` (see [Configuration](#configuration)). The query vector must have
+the same dimensionality as the stored vectors.
 
 ## Configuration
 
