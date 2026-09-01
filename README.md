@@ -27,7 +27,7 @@ is a drop-in swap.
 
 ## Where this fits in OVOS
 
-This plugin is the **vector store** half of the stack — it stores and searches vectors but
+This plugin is the **vector store** half of the stack. It stores and searches vectors but
 does not produce them. Pair it with an embedding producer such as
 [ovos-gguf-embeddings-plugin](https://github.com/OpenVoiceOS/ovos-gguf-embeddings-plugin)
 (text → vectors), or the [face](https://github.com/OpenVoiceOS/ovos-face-embeddings-plugin)
@@ -65,7 +65,7 @@ with tempfile.TemporaryDirectory() as tmp:
 ```
 
 `query` returns `(id, distance)` tuples ordered nearest-first. The score is a **distance**,
-not a similarity — **lower is closer** for the default `cosine` metric (and for `l2`). Change
+not a similarity. **Lower is closer** for the default `cosine` metric (and for `l2`). Change
 the metric with `hnsw:space` (see [Configuration](#configuration)). The query vector must have
 the same dimensionality as the stored vectors.
 
@@ -77,7 +77,7 @@ configuration under the plugin key.
 | Key | Type | Default | Description |
 |---|---|---|---|
 | `path` | `str` | `"./chromadb_storage"` | Local persistence directory (PersistentClient mode). |
-| `host` | `str` | — | Remote ChromaDB server host. When set, uses HttpClient instead of PersistentClient. |
+| `host` | `str` | none | Remote ChromaDB server host. When set, uses HttpClient instead of PersistentClient. |
 | `port` | `int` | `8000` | Port for the remote ChromaDB server (HttpClient mode only). |
 | `default_collection_name` | `str` | `"embeddings"` | Name of the collection created/used on init. |
 | `hnsw:space` | `str` | `"cosine"` | Distance metric for HNSW index. Accepted: `"cosine"`, `"l2"`, `"ip"`. Set via collection metadata. |
@@ -104,7 +104,7 @@ db = ChromaEmbeddingsDB(config={"host": "192.168.1.10", "port": 8000})
 | `get_embeddings_batch(keys, collection_name, return_metadata)` | Retrieve multiple vectors. |
 | `delete_embeddings(key, collection_name)` | Delete a vector by key. |
 | `delete_embeddings_batch(keys, collection_name)` | Delete multiple vectors. |
-| `query(embedding, top_k, return_metadata, collection_name)` | ANN search; returns `[(id, distance)]`. |
+| `query(embedding, top_k, return_metadata, collection_name)` | ANN search, returns `[(id, distance)]`. |
 | `create_collection(name, metadata)` | Create (or get) a named collection. |
 | `get_collection(name)` | Retrieve a collection handle (raises `ValueError` if absent). |
 | `delete_collection(name)` | Drop a collection. |
@@ -113,14 +113,14 @@ db = ChromaEmbeddingsDB(config={"host": "192.168.1.10", "port": 8000})
 
 ## Documentation
 
-- [`docs/configuration.md`](docs/configuration.md) — full config reference (local vs remote, distance metrics)
-- [`docs/usage.md`](docs/usage.md) — collections, CRUD, batch ops, metadata, numpy in/out
+- [`docs/configuration.md`](docs/configuration.md): full config reference (local vs remote, distance metrics)
+- [`docs/usage.md`](docs/usage.md): collections, CRUD, batch ops, metadata, numpy in/out
 
 ## Examples
 
-- [`examples/quickstart.py`](examples/quickstart.py) — add vectors + query
-- [`examples/collections.py`](examples/collections.py) — multi-collection workflow
-- [`examples/remote_server.py`](examples/remote_server.py) — HttpClient usage
+- [`examples/quickstart.py`](examples/quickstart.py): add vectors + query
+- [`examples/collections.py`](examples/collections.py): multi-collection workflow
+- [`examples/remote_server.py`](examples/remote_server.py): HttpClient usage
 
 ## Testing
 
@@ -137,12 +137,12 @@ using a small deterministic local embedder so it passes in CI without model down
 
 ## Credits
 
-Originally developed by [TigreGótico](https://tigregotico.pt) for [OpenVoiceOS](https://openvoiceos.org),
-sponsored by VisioLab. Modernized under the [NGI0 Commons Fund](https://nlnet.nl/commonsfund) / [NLnet](https://nlnet.nl).
+[TigreGótico](https://tigregotico.pt) originally developed this plugin for [OpenVoiceOS](https://openvoiceos.org),
+sponsored by VisioLab. The [NGI0 Commons Fund](https://nlnet.nl/commonsfund) / [NLnet](https://nlnet.nl) funded the modernization.
 
 <img src="https://github.com/user-attachments/assets/809588a2-32a2-406c-98c0-f88bf7753cb4" width="220" alt="VisioLab"/>
 
-> This work was sponsored by VisioLab, part of [Royal Dutch Visio](https://visio.org/), is the test, education, and research center in the field of (innovative) assistive technology for blind and visually impaired people and professionals. We explore (new) technological developments such as Voice, VR and AI and make the knowledge and expertise we gain available to everyone.
+> This work was sponsored by VisioLab, part of [Royal Dutch Visio](https://visio.org/). Royal Dutch Visio is the test, education, and research center in the field of (innovative) assistive technology for blind and visually impaired people and professionals. We explore (new) technological developments such as Voice, VR and AI and make the knowledge and expertise we gain available to everyone.
 
 [![NGI0 Commons Fund](./ngi.png)](https://nlnet.nl/project/OpenVoiceOS)
 

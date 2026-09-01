@@ -1,7 +1,7 @@
 # Usage
 
 All examples assume a `ChromaEmbeddingsDB` instance called `db`.
-Embeddings are `numpy.ndarray` of `float32`; all vectors in a collection must share the same dimensionality.
+Embeddings are `numpy.ndarray` of `float32`. All vectors in a collection must share the same dimensionality.
 
 ## Initialisation
 
@@ -82,7 +82,7 @@ emb = db.get_embeddings("user:42")
 # Also return metadata
 emb, meta = db.get_embeddings("user:42", return_metadata=True)
 
-# Batch retrieval — returns list of (key, embedding) or (key, embedding, metadata)
+# Batch retrieval: returns list of (key, embedding) or (key, embedding, metadata)
 results = db.get_embeddings_batch(["item:1", "item:2"], return_metadata=True)
 for key, emb, meta in results:
     print(key, emb.shape, meta)
@@ -137,3 +137,6 @@ n = db.count_embeddings_in_collection("voices")       # named collection
 
 All embedding inputs accept `np.ndarray` or plain Python `list[float]`.
 All outputs are `np.ndarray` (converted from ChromaDB's internal list representation).
+
+---
+[← Configuration](configuration.md) · [Home](../README.md)
