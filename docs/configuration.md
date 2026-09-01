@@ -67,3 +67,6 @@ db.create_collection("l2_collection", metadata={"hnsw:space": "l2"})
 ```
 
 The default collection uses the value from the top-level config key (default: `"cosine"`).
+
+---
+[Home](../README.md) · [Usage →](usage.md)
