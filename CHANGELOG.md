@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0a5](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/tree/0.3.0a5) (2026-09-01)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/compare/0.3.0a4...0.3.0a5)
+
+**Merged pull requests:**
+
+- docs: rewrite README in Simplified Technical English [\#24](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/pull/24) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.3.0a4](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/tree/0.3.0a4) (2026-06-20)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin/compare/0.3.0a3...0.3.0a4)
